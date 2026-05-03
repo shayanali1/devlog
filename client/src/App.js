@@ -1,25 +1,33 @@
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './Pages/Home';
+import NewLog from './Pages/NewLog';
+import Dashboard from './Pages/Dashboard';
 import './App.css';
+
+function Navbar() {
+  const navigate = useNavigate();
+  return (
+    <nav className="navbar">
+      <h1 className="logo" onClick={() => navigate('/')}>DevLog 🚀</h1>
+      <div className="nav-links">
+        <button className="nav-btn" onClick={() => navigate('/')}>Home</button>
+        <button className="nav-btn" onClick={() => navigate('/dashboard')}>Dashboard</button>
+        <button className="nav-btn" onClick={() => navigate('/new-log')}>+ New Log</button>
+      </div>
+    </nav>
+  );
+}
 
 function App() {
   return (
-    <div className="app">
-
-      {/* Navbar */}
-      <nav className="navbar">
-        <h1 className="logo">DevLog 🚀</h1>
-        <span className="tagline">Track your coding journey</span>
-      </nav>
-
-      {/* Main content */}
-      <main className="main">
-        <div className="hero">
-          <h2>Welcome back, Dev 👋</h2>
-          <p>What did you build or learn today?</p>
-          <button className="btn-primary">+ Log Today's Win</button>
-        </div>
-      </main>
-
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/new-log" element={<NewLog />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
