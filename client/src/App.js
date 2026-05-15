@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import Home from './Pages/Home';
-import NewLog from './Pages/NewLog';
-import Dashboard from './Pages/Dashboard';
+import Home from './pages/Home';
+import NewLog from './pages/NewLog';
+import Dashboard from './pages/Dashboard';
 import './App.css';
 
 function Navbar() {
