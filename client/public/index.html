@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -25,6 +25,46 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              background: "#0b1326",
+              "surface-container": "#171f33",
+              "surface-variant": "#2d3449",
+              "outline-variant": "#3c4a46",
+              outline: "#859490",
+              "on-surface": "#dae2fd",
+              "on-surface-variant": "#bacac5",
+              primary: "#57f1db",
+              "primary-container": "#2dd4bf",
+              "on-primary": "#003731",
+              secondary: "#c0c1ff",
+              "secondary-container": "#3131c0",
+              tertiary: "#ffd1aa",
+              "tertiary-container": "#ffac5a",
+              error: "#ffb4ab",
+              "surface-container-high": "#222a3d",
+            },
+            fontFamily: {
+              sans: ["Outfit", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
