@@ -1,63 +1,74 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [confirmId, setConfirmId] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/logs')
+    fetch("http://localhost:5000/api/logs")
       .then((res) => res.json())
-      .then((data) => { setLogs(data); setLoading(false); })
+      .then((data) => {
+        setLogs(data);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, []);
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Delete this log?')) return;
     try {
-      await fetch(`http://localhost:5000/api/logs/${Number(id)}`, { method: 'DELETE' });
+      await fetch(`http://localhost:5000/api/logs/${Number(id)}`, {
+        method: "DELETE",
+      });
       setLogs(logs.filter((log) => log.id !== id));
+      setConfirmId(null);
     } catch (err) {
-      console.error('Error deleting log:', err);
+      console.error("Error deleting log:", err);
     }
   };
 
   const tagColors = {
-    react: 'text-primary border-primary/30 bg-primary/10',
-    node: 'text-tertiary border-tertiary/30 bg-tertiary/10',
-    python: 'text-secondary border-secondary/30 bg-secondary/10',
-    dsa: 'text-tertiary-container border-tertiary-container/30 bg-tertiary-container/10',
-    css: 'text-primary-container border-primary-container/30 bg-primary-container/10',
-    other: 'text-outline border-outline/30 bg-outline/10',
+    react: "text-primary border-primary/30 bg-primary/10",
+    node: "text-tertiary border-tertiary/30 bg-tertiary/10",
+    python: "text-secondary border-secondary/30 bg-secondary/10",
+    dsa: "text-tertiary-container border-tertiary-container/30 bg-tertiary-container/10",
+    css: "text-primary-container border-primary-container/30 bg-primary-container/10",
+    other: "text-outline border-outline/30 bg-outline/10",
   };
 
   const moodIcons = {
-    great: 'sentiment_satisfied',
-    okay: 'sentiment_neutral',
-    stuck: 'sentiment_dissatisfied',
-    tired: 'bedtime',
+    great: "sentiment_satisfied",
+    okay: "sentiment_neutral",
+    stuck: "sentiment_dissatisfied",
+    tired: "bedtime",
   };
 
   const moodColors = {
-    great: 'text-primary bg-primary/10 border-primary/20',
-    okay: 'text-secondary bg-secondary/10 border-secondary/20',
-    stuck: 'text-tertiary bg-tertiary/10 border-tertiary/20',
-    tired: 'text-outline bg-outline/10 border-outline/20',
+    great: "text-primary bg-primary/10 border-primary/20",
+    okay: "text-secondary bg-secondary/10 border-secondary/20",
+    stuck: "text-tertiary bg-tertiary/10 border-tertiary/20",
+    tired: "text-outline bg-outline/10 border-outline/20",
   };
 
-  if (loading) return (
-    <div className="flex items-center justify-center h-64">
-      <p className="text-on-surface-variant font-mono">Loading your logs...</p>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-64">
+        <p className="text-on-surface-variant font-mono">
+          Loading your logs...
+        </p>
+      </div>
+    );
 
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
-        <h2 className="text-5xl font-bold text-on-surface font-sans">Your Coding Logs</h2>
+        <h2 className="text-5xl font-bold text-on-surface font-sans">
+          Your Coding Logs
+        </h2>
         <button
-          onClick={() => navigate('/new-log')}
+          onClick={() => navigate("/new-log")}
           className="bg-gradient-to-r from-primary to-primary-container text-on-primary hover:opacity-90 hover:scale-105 transition-all duration-300 px-6 py-3 rounded-lg font-mono font-semibold flex items-center gap-2 shadow-[0_0_20px_rgba(87,241,219,0.3)] border border-primary/50"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
@@ -67,10 +78,14 @@ function Home() {
 
       {logs.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-64 gap-4">
-          <span className="material-symbols-outlined text-[48px] text-on-surface-variant">edit_note</span>
-          <p className="text-on-surface-variant font-sans">No logs yet. Start by logging your first win!</p>
+          <span className="material-symbols-outlined text-[48px] text-on-surface-variant">
+            edit_note
+          </span>
+          <p className="text-on-surface-variant font-sans">
+            No logs yet. Start by logging your first win!
+          </p>
           <button
-            onClick={() => navigate('/new-log')}
+            onClick={() => navigate("/new-log")}
             className="text-primary font-mono text-sm hover:underline"
           >
             + Log Today's Win
@@ -87,27 +102,38 @@ function Home() {
 
               <div className="flex justify-between items-start border-b border-outline-variant/20 pb-4 relative z-10">
                 <div className="flex gap-3 items-center">
-                  <div className={`w-10 h-10 rounded-lg border flex items-center justify-center ${moodColors[log.mood] || 'text-outline bg-outline/10 border-outline/20'}`}>
+                  <div
+                    className={`w-10 h-10 rounded-lg border flex items-center justify-center ${moodColors[log.mood] || "text-outline bg-outline/10 border-outline/20"}`}
+                  >
                     <span className="material-symbols-outlined text-[18px]">
-                      {moodIcons[log.mood] || 'edit_note'}
+                      {moodIcons[log.mood] || "edit_note"}
                     </span>
                   </div>
                   <div>
                     <span className="text-xs font-mono text-on-surface-variant block mb-1">
-                      {new Date(log.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(log.created_at).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                     </span>
                     {log.tag && (
-                      <span className={`text-xs font-mono border px-2 py-0.5 rounded-md inline-block ${tagColors[log.tag] || tagColors.other}`}>
+                      <span
+                        className={`text-xs font-mono border px-2 py-0.5 rounded-md inline-block ${tagColors[log.tag] || tagColors.other}`}
+                      >
                         {log.tag}
                       </span>
                     )}
                   </div>
                 </div>
                 <button
-                  onClick={() => handleDelete(log.id)}
+                  onClick={() => setConfirmId(log.id)}
                   className="text-outline hover:text-error transition-colors p-1 rounded-md hover:bg-surface-variant/50"
                 >
-                  <span className="material-symbols-outlined text-[20px]">delete</span>
+                  <span className="material-symbols-outlined text-[20px]">
+                    delete
+
+                  </span>
                 </button>
               </div>
 
@@ -125,6 +151,31 @@ function Home() {
           ))}
         </div>
       )}
+      {confirmId && (
+  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="bg-surface-container border border-outline-variant/30 rounded-xl p-8 max-w-sm w-full mx-4 flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <h3 className="text-lg font-semibold text-on-surface font-sans">Delete this log?</h3>
+        <p className="text-on-surface-variant text-sm font-sans">This action cannot be undone.</p>
+      </div>
+      <div className="flex gap-3 justify-end">
+        <button
+          onClick={() => setConfirmId(null)}
+          className="px-5 py-2 text-on-surface-variant hover:text-on-surface transition-colors font-sans text-sm"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => handleDelete(confirmId)}
+          className="px-5 py-2 bg-error/20 border border-error/30 text-error rounded-lg font-sans text-sm hover:bg-error/30 transition-colors flex items-center gap-2"
+        >
+          <span className="material-symbols-outlined text-[16px]">delete</span>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
